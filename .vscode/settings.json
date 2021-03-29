@@ -9,5 +9,6 @@
     "**/.venv": true
   },
 
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "python.pythonPath": ".venv/bin/python"
 }
