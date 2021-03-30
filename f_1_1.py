@@ -396,17 +396,3 @@ class FresnelEquationsPartTwo(Scene):
         Write(t_p),
     )
     self.wait(10)
-
-
-class SolutionOne(Scene):
-
-  def construct(self):
-    intro = Intro()
-    fresnel = Fresnel()
-    fresnel_equations_part_one = FresnelEquationsPartOne()
-    fresnel_equations_part_two = FresnelEquationsPartTwo()
-
-    intro.construct()
-    fresnel.construct()
-    fresnel_equations_part_one.construct()
-    fresnel_equations_part_two.construct()
