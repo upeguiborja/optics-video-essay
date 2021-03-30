@@ -16,11 +16,12 @@ class Intro(Scene):
   def construct(self):
     question = Text(
         r'''F1.1 Explicar el significado físico de los coeficientes de Fresnel para interfaces
-  entre medios dieléctricos. Ilustrarlos considerando las interfaces
-  aire (n=1.0) - vidrio (n=1.5) y vidrio - aire''')
-
+    entre medios dieléctricos. Ilustrarlos considerando las interfaces
+    aire (n=1.0) - vidrio (n=1.5) y vidrio - aire''')
     question.scale(0.5)
+
     self.play(Write(question, run_time=5))
+    self.wait(5)
 
 
 class Fresnel(Scene):
@@ -112,11 +113,17 @@ class Fresnel(Scene):
         arc_t_label,
     ]
 
+    #Start
     for item in objects:
       self.add(item)
 
+    self.wait(6)
+
+    #Angles
     for item in angles:
       self.play(Write(item))
+
+    self.wait(4)
 
     line_i.add_updater(lambda m: m.set_angle(theta.get_value()))
     line_r.add_updater(lambda m: m.set_angle(180 * DEGREES - theta.get_value()))
@@ -147,9 +154,11 @@ class Fresnel(Scene):
             arc_center=ORIGIN,
         )))
 
+    # Rotation
     self.play(theta.animate.set_value(95 * DEGREES))
     self.play(theta.animate.set_value(175 * DEGREES))
     self.play(theta.animate.set_value(135 * DEGREES))
+    self.wait(5)
 
     k_i = Arrow(start=(-2, 2, 0), end=(-1, 1, 0), color=GREEN, buff=0)
 
@@ -166,14 +175,22 @@ class Fresnel(Scene):
     h_i_label = MathTex("H_{I\\perp}", color=BLUE)
     e_i_label = MathTex("E_{I\\perp}", color=RED)
 
-    labels_i = VGroup(k_i_label, h_i_label, e_i_label)
+    labels_i = VGroup(h_i_label, e_i_label, k_i_label)
     labels_i.arrange(UP)
     labels_i.to_corner(UL)
 
     em_i = VGroup(k_i, h_i, e_i)
 
+    #Labels
+    self.play(Write(k_i_label))
+    self.wait(2)
+    self.play(Write(e_i_label))
+    self.wait(2)
+    self.play(Write(h_i_label))
+    self.wait(3)
+
+    #Field
     self.play(Write(em_i))
-    self.play(Write(labels_i))
 
     k_r = Arrow(start=(2, 2, 0), end=(3, 3, 0), color=GREEN, buff=0)
 
@@ -190,7 +207,7 @@ class Fresnel(Scene):
     h_r_label = MathTex("H_{R\\perp}", color=BLUE)
     e_r_label = MathTex("E_{R\\perp}", color=RED)
 
-    labels_r = VGroup(k_r_label, h_r_label, e_r_label)
+    labels_r = VGroup(h_r_label, e_r_label, k_r_label)
     labels_r.arrange(UP)
     labels_r.to_corner(UR)
 
@@ -214,14 +231,15 @@ class Fresnel(Scene):
     h_t_label = MathTex("H_{R\\perp}", color=BLUE)
     e_t_label = MathTex("E_{R\\perp}", color=RED)
 
-    labels_t = VGroup(k_t_label, h_t_label, e_t_label)
+    labels_t = VGroup(h_t_label, e_t_label, k_t_label)
     labels_t.arrange(UP)
     labels_t.to_corner(DR)
 
     em_t = VGroup(k_t, h_t, e_t)
 
+    #Fields
     self.play(Write(em_r), Write(labels_r), Write(em_t), Write(labels_t))
-    self.wait(2)
+    self.wait(40)
 
     boundary_1_part_1 = MathTex("E_{tan,1} = E_{tan,2}")
     boundary_2_part_1 = MathTex("H_{tan,1} = H_{tan,2}")
@@ -230,22 +248,26 @@ class Fresnel(Scene):
     boundary_1_part_1.shift(UP)
     boundary_2_part_1.to_corner(DL)
 
+    #Boundary
     self.play(Write(boundary_1_part_1), Write(boundary_2_part_1))
+    self.wait(18)
 
     boundary_1_part_2 = MathTex("E_{I\\perp} + E_{R\\perp} = E_{T\\perp}")
     boundary_1_part_2.to_corner(DL)
     boundary_1_part_2.shift(UP)
 
-    self.wait(2)
+    #Boundary 2
     self.play(Transform(boundary_1_part_1, boundary_1_part_2))
+    self.wait(2)
 
     boundary_2_part_2 = MathTex(
         "H_{I\\perp}\\cos{\\theta_{I}} - H_{R\\perp}\\cos{\\theta_{P} = H_{T\\perp}\\cos{\\theta_{T}"
     )
     boundary_2_part_2.to_corner(DL)
 
-    self.wait(2)
+    #Boundary 3
     self.play(Transform(boundary_2_part_1, boundary_2_part_2))
+    self.wait(2)
 
 
 class FresnelEquationsPartOne(Scene):
@@ -263,7 +285,7 @@ class FresnelEquationsPartOne(Scene):
     boundary_2_part_2.to_corner(UL)
 
     self.add(boundary_2_part_2)
-    self.wait()
+    self.wait(5)
 
     electric_magnetic = MathTex("E", "= {\\eta \\over n}", "H")
     electric_magnetic.set_color_by_tex_to_color_map({"E": RED, "H": BLUE})
@@ -303,7 +325,7 @@ class FresnelEquationsPartOne(Scene):
         boundary_2_part_3.animate.shift(UP),
     )
     self.play(Write(boundary_1_part_2))
-    self.wait()
+    self.wait(5)
 
     r_s = MathTex(
         "r_{\\perp} = {{E_{R\\perp}} \\over {E_{I\\perp}}}",
@@ -328,6 +350,7 @@ class FresnelEquationsPartOne(Scene):
         Write(r_s),
         Write(t_s),
     )
+    self.wait(3)
 
 
 class FresnelEquationsPartTwo(Scene):
@@ -365,10 +388,25 @@ class FresnelEquationsPartTwo(Scene):
     t_p.shift(DOWN)
     t_p.shift(RIGHT * 3.5)
 
-    self.wait()
+    self.wait(2)
     self.play(
         Write(r_s),
         Write(t_s),
         Write(r_p),
         Write(t_p),
     )
+    self.wait(10)
+
+
+class SolutionOne(Scene):
+
+  def construct(self):
+    intro = Intro()
+    fresnel = Fresnel()
+    fresnel_equations_part_one = FresnelEquationsPartOne()
+    fresnel_equations_part_two = FresnelEquationsPartTwo()
+
+    intro.construct()
+    fresnel.construct()
+    fresnel_equations_part_one.construct()
+    fresnel_equations_part_two.construct()
