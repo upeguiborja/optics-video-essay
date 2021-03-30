@@ -29,6 +29,7 @@ class OpticalPrism(Scene):
     center_1 = midpoint(vertices[0], vertices[1])
 
     self.play(Write(prism))
+    self.wait(3)
 
     incident_ray = Line(
         start=(-10, -2, 0),
@@ -36,8 +37,28 @@ class OpticalPrism(Scene):
         stroke_width=5,
     )
 
+    #Incident
     self.play(Write(incident_ray))
-    self.wait(2)
+    self.wait(13)
+
+    #Refraction Index
+    refraction_index = MathTex("n = {c \\over v}")
+    refraction_index.to_corner(UL)
+    self.play(Write(refraction_index))
+
+    #Snell Law
+    snell_law = MathTex("n_I\\sin\\theta_I = n_T\\sin\\theta_T")
+    snell_law.to_corner(UL)
+    snell_law.shift(DOWN * 1.5)
+    self.play(Write(snell_law))
+
+    #Snell Law Mod
+    snell_law_theta = MathTex(
+        "\\theta_T = \\arcsin\\left(\\frac{n_I\\sin\\theta_I}{n_T}\\right)")
+    snell_law_theta.to_corner(UL)
+    snell_law_theta.shift(DOWN * 1.5)
+    self.play(Transform(snell_law, snell_law_theta))
+    self.wait(10)
 
     center_2 = midpoint(vertices[0], vertices[2])
 
@@ -92,7 +113,7 @@ class OpticalPrism(Scene):
         Write(diff_ray_5),
         Write(diff_ray_6),
     )
-    self.wait()
+    self.wait(5)
 
     end_ray_1 = Line(
         start=diff_ray_1.end,
@@ -144,3 +165,4 @@ class OpticalPrism(Scene):
         Write(end_ray_5),
         Write(end_ray_6),
     )
+    self.wait(5)
