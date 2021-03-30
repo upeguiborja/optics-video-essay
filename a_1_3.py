@@ -6,14 +6,14 @@ class Intro(Scene):
 
   def construct(self):
     question = Text(
-        r'''3. La siguiente figura muestra un montaje experimental de tres polarizadores
+        r'''A1.3 La siguiente figura muestra un montaje experimental de tres polarizadores
     lineales. Los ejes de transmisión del polarizador cercano a la vela y del analizador
     son mutualmente ortogonales. mientras que el del polarizador del medio
     hace 45º con el del polarizador cercano a la vela.''')
     question.scale(0.5)
 
-    self.play(Write(question))
-    self.wait()
+    self.play(Write(question, run_time=5))
+    self.wait(12)
 
 
 class IntroA(Scene):
@@ -25,8 +25,8 @@ class IntroA(Scene):
     )
     question.scale(0.5)
 
-    self.play(Write(question))
-    self.wait()
+    self.play(Write(question, run_time=5))
+    self.wait(5)
 
 
 class IntroB(Scene):
@@ -38,14 +38,15 @@ class IntroB(Scene):
     cercano a la vela y del analizador?''')
     question.scale(0.5)
 
-    self.play(Write(question))
-    self.wait()
+    self.play(Write(question, run_time=5))
+    self.wait(7)
 
 
 class Polarizer(ThreeDScene):
 
   def construct(self):
     self.set_camera_orientation(phi=75 * DEGREES, theta=-45 * DEGREES)
+    # self.begin_ambient_camera_rotation()
     polarizer_body = Square(fill_opacity=0.25, color=BLUE)
 
     polarizer_arrow = Line(start=np.array([0, 0, 0]),
@@ -81,8 +82,8 @@ class Polarizer(ThreeDScene):
         Write(polarizer_3, run_time=2),
         FadeIn(axes, run_time=2),
     )
-    # self.begin_ambient_camera_rotation()
-    self.wait()
+
+    self.wait(3)
 
     e_unpolarized_1.shift(UP * PI * 2)
     e_unpolarized_1.set_opacity(0.2)
@@ -99,14 +100,14 @@ class Polarizer(ThreeDScene):
         Write(e_unpolarized_2),
         Write(e_unpolarized_label),
     )
-    self.wait()
+    self.wait(5)
 
     malus_law = MathTex("I_i = I_{i-1}\\cos^{2}\\theta")
     malus_law.to_corner(DR)
     self.add_fixed_in_frame_mobjects(malus_law)
 
     self.play(Write(malus_law))
-    self.wait()
+    self.wait(5)
 
     e_polarized_1 = e_unpolarized_1.copy()
     e_polarized_1.shift(DOWN * PI)
@@ -125,7 +126,7 @@ class Polarizer(ThreeDScene):
         Write(e_polarized_1),
         Write(e_polarized_1_label),
     )
-    self.wait()
+    self.wait(15)
 
     e_polarized_2 = e_polarized_1.copy()
     e_polarized_2.shift(DOWN * PI)
@@ -146,7 +147,7 @@ class Polarizer(ThreeDScene):
         Write(e_polarized_2),
         Write(e_polarized_2_label),
     )
-    self.wait()
+    self.wait(15)
 
     e_polarized_3 = e_polarized_2.copy()
     e_polarized_3.shift(DOWN * PI)
@@ -168,4 +169,15 @@ class Polarizer(ThreeDScene):
         Write(e_polarized_3),
         Write(e_polarized_3_label),
     )
-    self.wait()
+    self.wait(15)
+
+    #Destroy labels
+    self.play(Uncreate(e_unpolarized_label), Uncreate(e_polarized_1_label),
+              Uncreate(e_polarized_2_label), Uncreate(e_polarized_3_label))
+    self.wait(7)
+
+    #Rotate detector
+    self.play(Rotate(polarizer_3, 45 * DEGREES, axis=Y_AXIS),
+              Uncreate(e_polarized_3))
+
+    self.wait(13)
